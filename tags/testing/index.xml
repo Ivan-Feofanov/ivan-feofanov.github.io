@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>testing on From Urals with None</title>
+    <link>https://ivan-feofanov.github.io/tags/testing/</link>
+    <description>Recent content in testing on From Urals with None</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 09 May 2019 11:35:06 +0000</lastBuildDate>
+    
+	<atom:link href="https://ivan-feofanov.github.io/tags/testing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Тестирование не для начинающих</title>
+      <link>https://ivan-feofanov.github.io/posts/testing-not-for-beginners-2af2533ffb26/</link>
+      <pubDate>Thu, 09 May 2019 11:35:06 +0000</pubDate>
+      
+      <guid>https://ivan-feofanov.github.io/posts/testing-not-for-beginners-2af2533ffb26/</guid>
+      <description>Перевод статьи “Testing is Not for Beginners” Джонатана Калхуна
+ Я большой фанат тестирования. Я пишу об этом в блог и почтовую рассылку, я обсуждаю это c другими разработчиками в свободное время, я зашел так далеко, что даже создал обучающий курс по тестированию в Go.
+Но несмотря на всю мою любовь к тестированию, я не рекомендую его новичкам.
+Звучит дико, правда? В этой статье я собираюсь пояснить свою точку зрения более детально, но весь смысл, в итоге, сводится к двум пунктам:</description>
+    </item>
+    
+  </channel>
+</rss>

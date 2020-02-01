@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>windows-1251 on From Urals with None</title>
+    <link>https://ivan-feofanov.github.io/tags/windows-1251/</link>
+    <description>Recent content in windows-1251 on From Urals with None</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 01 Feb 2020 18:31:48 +0500</lastBuildDate>
+    
+	<atom:link href="https://ivan-feofanov.github.io/tags/windows-1251/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Как перекодировать Windows-1251 в UTF8 в Go без страданий</title>
+      <link>https://ivan-feofanov.github.io/posts/windows1251-utf8-converting/</link>
+      <pubDate>Sat, 01 Feb 2020 18:31:48 +0500</pubDate>
+      
+      <guid>https://ivan-feofanov.github.io/posts/windows1251-utf8-converting/</guid>
+      <description>Ниже история одной моей довольно забавной ошибки. Воистину, программист никогда не заскучает; даже имея в руках идеальный инструмент, он сможет применить его неправильно. Что уж говорить об инструментах неидеальных?
+ Может показаться удивительным, но в просвещённом 2020-ом году всё ещё существуют разработчики, которые полагают, что нет ничего криминального в использовании кодировки windows-1251 при отдаче с эндпойнта API контента, содержащего кириллицу. Бог им судья, мне же пришлось искать способ этот самый контент безболезненно конвертнуть в благословенный юникод.</description>
+    </item>
+    
+  </channel>
+</rss>
