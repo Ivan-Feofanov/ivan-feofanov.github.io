@@ -1,47 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>go on From Urals with None</title>
-    <link>https://ivan-feofanov.github.io/tags/go/</link>
-    <description>Recent content in go on From Urals with None</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 01 Feb 2020 18:31:48 +0500</lastBuildDate>
-    
-	<atom:link href="https://ivan-feofanov.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Как перекодировать Windows-1251 в UTF8 в Go без страданий</title>
-      <link>https://ivan-feofanov.github.io/posts/windows1251-utf8-converting/</link>
-      <pubDate>Sat, 01 Feb 2020 18:31:48 +0500</pubDate>
-      
-      <guid>https://ivan-feofanov.github.io/posts/windows1251-utf8-converting/</guid>
-      <description>Ниже история одной моей довольно забавной ошибки. Воистину, программист никогда не заскучает; даже имея в руках идеальный инструмент, он сможет применить его неправильно. Что уж говорить об инструментах неидеальных?
- Может показаться удивительным, но в просвещённом 2020-ом году всё ещё существуют разработчики, которые полагают, что нет ничего криминального в использовании кодировки windows-1251 при отдаче с эндпойнта API контента, содержащего кириллицу. Бог им судья, мне же пришлось искать способ этот самый контент безболезненно конвертнуть в благословенный юникод.</description>
-    </item>
-    
-    <item>
-      <title>Тестирование не для начинающих</title>
-      <link>https://ivan-feofanov.github.io/posts/testing-not-for-beginners-2af2533ffb26/</link>
-      <pubDate>Thu, 09 May 2019 11:35:06 +0000</pubDate>
-      
-      <guid>https://ivan-feofanov.github.io/posts/testing-not-for-beginners-2af2533ffb26/</guid>
-      <description>Перевод статьи “Testing is Not for Beginners” Джонатана Калхуна
- Я большой фанат тестирования. Я пишу об этом в блог и почтовую рассылку, я обсуждаю это c другими разработчиками в свободное время, я зашел так далеко, что даже создал обучающий курс по тестированию в Go.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on From Urals with None</title><link>https://ivan-feofanov.github.io/tags/go/</link><description>Recent content in go on From Urals with None</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Sat, 01 Feb 2020 18:31:48 +0500</lastBuildDate><atom:link href="https://ivan-feofanov.github.io/tags/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Как перекодировать Windows-1251 в UTF8 в Go без страданий</title><link>https://ivan-feofanov.github.io/posts/windows1251-utf8-converting/</link><pubDate>Sat, 01 Feb 2020 18:31:48 +0500</pubDate><guid>https://ivan-feofanov.github.io/posts/windows1251-utf8-converting/</guid><description>Ниже история одной моей довольно забавной ошибки. Воистину, программист никогда не заскучает; даже имея в руках идеальный инструмент, он сможет применить его неправильно. Что уж говорить об инструментах неидеальных?
+Может показаться удивительным, но в просвещённом 2020-ом году всё ещё существуют разработчики, которые полагают, что нет ничего криминального в использовании кодировки windows-1251 при отдаче с эндпойнта API контента, содержащего кириллицу. Бог им судья, мне же пришлось искать способ этот самый контент безболезненно конвертнуть в благословенный юникод.</description></item><item><title>Тестирование не для начинающих</title><link>https://ivan-feofanov.github.io/posts/testing-not-for-beginners-2af2533ffb26/</link><pubDate>Thu, 09 May 2019 11:35:06 +0000</pubDate><guid>https://ivan-feofanov.github.io/posts/testing-not-for-beginners-2af2533ffb26/</guid><description>Перевод статьи “Testing is Not for Beginners” Джонатана Калхуна
+Я большой фанат тестирования. Я пишу об этом в блог и почтовую рассылку, я обсуждаю это c другими разработчиками в свободное время, я зашел так далеко, что даже создал обучающий курс по тестированию в Go.
 Но несмотря на всю мою любовь к тестированию, я не рекомендую его новичкам.
-Звучит дико, правда? В этой статье я собираюсь пояснить свою точку зрения более детально, но весь смысл, в итоге, сводится к двум пунктам:</description>
-    </item>
-    
-    <item>
-      <title>Практичный путеводитель по переменным окружения в Go</title>
-      <link>https://ivan-feofanov.github.io/posts/2019-04-02_go-1c6ab49c7d45/</link>
-      <pubDate>Tue, 02 Apr 2019 10:23:55 +0000</pubDate>
-      
-      <guid>https://ivan-feofanov.github.io/posts/2019-04-02_go-1c6ab49c7d45/</guid>
-      <description>Перевод оригинальной статьи “A no-nonsense guide to environment variables in Go” 
- Переменные окружения — лучший способ хранения конфигурации приложения, поскольку они могут быть заданы на системном уровне. Это один из принципов методологии Twelve-Factor App , он позволяет отделять приложения от системы, в которой они запущены (конфигурация может существенно различаться между деплоями, код не должен различаться).
-Использование переменных окружения Всё, что необходимо для взаимодействия с переменными окружения есть в стандартной библиотеке os .</description>
-    </item>
-    
-  </channel>
-</rss>
+Звучит дико, правда? В этой статье я собираюсь пояснить свою точку зрения более детально, но весь смысл, в итоге, сводится к двум пунктам:</description></item><item><title>Практичный путеводитель по переменным окружения в Go</title><link>https://ivan-feofanov.github.io/posts/2019-04-02_go-1c6ab49c7d45/</link><pubDate>Tue, 02 Apr 2019 10:23:55 +0000</pubDate><guid>https://ivan-feofanov.github.io/posts/2019-04-02_go-1c6ab49c7d45/</guid><description>Перевод оригинальной статьи “A no-nonsense guide to environment variables in Go”
+Переменные окружения — лучший способ хранения конфигурации приложения, поскольку они могут быть заданы на системном уровне. Это один из принципов методологии Twelve-Factor App , он позволяет отделять приложения от системы, в которой они запущены (конфигурация может существенно различаться между деплоями, код не должен различаться).
+Использование переменных окружения Всё, что необходимо для взаимодействия с переменными окружения есть в стандартной библиотеке os .</description></item></channel></rss>
