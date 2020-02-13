@@ -1,0 +1,176 @@
+<!doctype html><html lang=ru itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Знакомство с FastAPI - From Urals with None</title><meta name=description content="Вместо предисловия: В нашей команде бытует хорошая практика фиксировать всё изменения, которые отправляются в продакшен в гитхабовских релизах. Однако, не вся наша команда имеет доступ в гитхаб, а о релизах хочется знать всем. Так сложилась традиция релиз из гитхаба дублировать в рабочем чате команды в телеграме. Что хорошо, гитхаб позволяет с помощь маркдауна красиво оформить релиз с разделением на секции и ссылками на задачи, которые отправляются на выкатку. Что плохо, простым copy/paste всю эту красоту в телеграм не перенесёшь и приходится тратить время на довольно нудную работу по повторному оформлению релиза, но уже в телеграме."><meta name=author content="Ivan Feofanov"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"From Urals with None","url":"https:\/\/ivan-feofanov.github.io"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/ivan-feofanov.github.io"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/ivan-feofanov.github.io","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/ivan-feofanov.github.io\/posts\/meet-to-fastapi\/","name":"Знакомство с fast a p i"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Ivan Feofanov"},"headline":"Знакомство с FastAPI","description":"Вместо предисловия: В нашей команде бытует хорошая практика фиксировать всё изменения, которые отправляются в продакшен в гитхабовских релизах. Однако, не вся наша команда имеет доступ в гитхаб, а о релизах хочется знать всем. Так сложилась традиция релиз из гитхаба дублировать в рабочем чате команды в телеграме. Что хорошо, гитхаб позволяет с помощь маркдауна красиво оформить релиз с разделением на секции и ссылками на задачи, которые отправляются на выкатку. Что плохо, простым copy\/paste всю эту красоту в телеграм не перенесёшь и приходится тратить время на довольно нудную работу по повторному оформлению релиза, но уже в телеграме.","inLanguage":"ru","wordCount":1013,"datePublished":"2020-02-13T12:30:00","dateModified":"2020-02-13T12:30:00","image":"https:\/\/ivan-feofanov.github.io\/images\/avatar.jpg","keywords":["python, async, api"],"mainEntityOfPage":"https:\/\/ivan-feofanov.github.io\/posts\/meet-to-fastapi\/","publisher":{"@type":"Organization","name":"https:\/\/ivan-feofanov.github.io","logo":{"@type":"ImageObject","url":"https:\/\/ivan-feofanov.github.io\/images\/avatar.jpg","height":60,"width":60}}}</script><meta property="og:title" content="Знакомство с FastAPI"><meta property="og:description" content="Вместо предисловия: В нашей команде бытует хорошая практика фиксировать всё изменения, которые отправляются в продакшен в гитхабовских релизах. Однако, не вся наша команда имеет доступ в гитхаб, а о релизах хочется знать всем. Так сложилась традиция релиз из гитхаба дублировать в рабочем чате команды в телеграме. Что хорошо, гитхаб позволяет с помощь маркдауна красиво оформить релиз с разделением на секции и ссылками на задачи, которые отправляются на выкатку. Что плохо, простым copy/paste всю эту красоту в телеграм не перенесёшь и приходится тратить время на довольно нудную работу по повторному оформлению релиза, но уже в телеграме."><meta property="og:image" content="https://ivan-feofanov.github.io/images/avatar.jpg"><meta property="og:url" content="https://ivan-feofanov.github.io/posts/meet-to-fastapi/"><meta property="og:type" content="website"><meta property="og:site_name" content="From Urals with None"><meta name=twitter:title content="Знакомство с FastAPI"><meta name=twitter:description content="Вместо предисловия: В нашей команде бытует хорошая практика фиксировать всё изменения, которые отправляются в продакшен в гитхабовских релизах. Однако, не вся наша команда имеет доступ в гитхаб, а о …"><meta name=twitter:image content="https://ivan-feofanov.github.io/images/avatar.jpg"><meta name=twitter:card content="summary"><meta name=twitter:site content="@feofanov"><meta name=twitter:creator content="@feofanov"><link href=https://ivan-feofanov.github.io/images/favicon.ico rel=icon type=image/x-icon><meta name=generator content="Hugo 0.62.2"><link rel=alternate href=https://ivan-feofanov.github.io/index.xml type=application/rss+xml title="From Urals with None"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://ivan-feofanov.github.io/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://ivan-feofanov.github.io/css/syntax.css><link rel=stylesheet href=https://ivan-feofanov.github.io/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous><link rel=stylesheet href=/css/custom.min.c70c8aa35885b888ddd3f54ad169b97f4983e641c5e07647525839c55535b281.css integrity="sha256-xwyKo1iFuIjd0/VK0Wm5f0mD5kHF4HZHUlg5xVU1soE=" crossorigin=anonymous><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-156930500-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<span class=sr-only>Навигация</span>
+<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
+<a class=navbar-brand href=https://ivan-feofanov.github.io>From Urals with None</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"></ul></div><div class=avatar-container><div class=avatar-img-border><a title="From Urals with None" href=https://ivan-feofanov.github.io><img class=avatar-img src=https://ivan-feofanov.github.io/images/avatar.jpg alt="From Urals with None"></a></div></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=posts-heading><h1>Знакомство с FastAPI</h1><hr class=small></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><blockquote><h4 id=вместо-предисловия>Вместо предисловия:</h4><p>В нашей команде бытует хорошая практика фиксировать всё изменения,
+которые отправляются в продакшен в гитхабовских релизах. Однако,
+не вся наша команда имеет доступ в гитхаб, а о релизах хочется знать всем.
+Так сложилась традиция релиз из гитхаба дублировать в рабочем чате
+команды в телеграме. Что хорошо, гитхаб позволяет с помощь маркдауна
+красиво оформить релиз с разделением на секции и ссылками на
+задачи, которые отправляются на выкатку. Что плохо, простым copy/paste
+всю эту красоту в телеграм не перенесёшь и приходится тратить время
+на довольно нудную работу по повторному оформлению релиза, но уже
+в телеграме. Ну а посколько программисты народ ленивый,
+я решил этот процесс автоматизировать.</p><h4 id=исходные-данные>Исходные данные:</h4><ul><li>Гитхаб умеет сообщать обо всём, что происходит в репозитории
+с помощью вебхуков</li><li>Вся необходимая для формирования релиза информация содержится в
+теле запроса, который кидает вебхук</li><li>Авторизация идёт через подпись запроса секретом, который
+проставляется в настройках вебхука</li></ul><p>Соответственно, задача заключается в том, чтобы поднять HTTP API,
+который сможет принять POST запрос, проверить подпись,
+извлечь нужную информацию из тела запроса и передать её дальше по инстанции.
+Как тут не попробовать FastAPI, на который я давно глаз положил?</p></blockquote><h4 id=кто-такой-fastapi>Кто такой FastAPI?</h4><p><a target=_blank class=external-link href=https://fastapi.tiangolo.com/>FastAPI</a> - это фреймворк для создания лаконичных и довольно быстрых
+HTTP API-серверов со встроенными валидацией, сериализацией и асинхронностью,
+что называется, из коробки. Стоит он на плечах двух других
+фреймворков: работой с web в FastAPI занимается
+<a target=_blank class=external-link href=https://www.starlette.io>Starlette</a>,
+за валидацию отвечает
+<a target=_blank class=external-link href=https://pydantic-docs.helpmanual.io>Pydantic</a>.</p><p>Комбайн получился легким, неперегруженным и более, чем
+достаточным по функционалу.</p><h4 id=необходимый-минимум>Необходимый минимум</h4><p>Для работы FastAPI необходим ASGI-сервер, по дефолту документация
+предлагает
+<a target=_blank class=external-link href=http://www.uvicorn.org>uvcorn</a>,
+базирующийся на
+<a target=_blank class=external-link href=https://github.com/MagicStack/uvloop>uvloop</a>,
+однако FastAPI также может работать и с другими серверами,
+например, c
+<a target=_blank class=external-link href=https://pgjones.gitlab.io/hypercorn/index.html>hypercorn</a></p><p>Вот мои зависимости:</p><div class=highlight><pre class=chroma><code class=language-toml data-lang=toml><span class=p>[</span><span class=nx>packages</span><span class=p>]</span>
+<span class=nx>fastapi</span> <span class=p>=</span> <span class=s2>&#34;*&#34;</span>
+<span class=nx>uvicorn</span> <span class=p>=</span> <span class=s2>&#34;*&#34;</span>
+</code></pre></div><p>И этого более чем достаточно.</p><blockquote><p>Для более тщательных читателей в
+конце статьи есть ссылка на репозиторий с ботом, там можно посмотреть
+на зависимости для разработки и тестирования.</p></blockquote><p>Ну что, <code>pipenv install -d</code> и начали!</p><h4 id=собираем-api>Собираем API</h4><p>Надо заметить, что подход к офоромлению хэндлеров в FastAPI
+чрезвычайно напоминает такой же в Flask, Bottle, да тысячи их.
+Видимо, миллионы мух не могут- таки ошибаться.</p><p>В самом первом приближении мой роут для обработки релиза выглядел так:</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>fastapi</span> <span class=kn>import</span> <span class=n>FastAPI</span>
+<span class=kn>from</span> <span class=nn>starlette</span> <span class=kn>import</span> <span class=n>status</span>
+<span class=kn>from</span> <span class=nn>starlette.responses</span> <span class=kn>import</span> <span class=n>Response</span>
+
+<span class=kn>from</span> <span class=nn>models</span> <span class=kn>import</span> <span class=n>Body</span>
+
+<span class=n>app</span> <span class=o>=</span> <span class=n>FastAPI</span><span class=p>(</span><span class=p>)</span>  <span class=c1># noqa: pylint=invalid-name</span>
+
+
+<span class=nd>@app.post</span><span class=p>(</span><span class=sa></span><span class=s2>&#34;</span><span class=s2>/release/</span><span class=s2>&#34;</span><span class=p>)</span>
+<span class=n>async</span> <span class=k>def</span> <span class=nf>release</span><span class=p>(</span><span class=o>*</span><span class=p>,</span>
+                  <span class=n>body</span><span class=p>:</span> <span class=n>Body</span><span class=p>,</span>
+                  <span class=n>chat_id</span><span class=p>:</span> <span class=nb>str</span> <span class=o>=</span> <span class=bp>None</span><span class=p>)</span><span class=p>:</span>
+    <span class=n>await</span> <span class=n>proceed_release</span><span class=p>(</span><span class=n>body</span><span class=p>,</span> <span class=n>chat_id</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>Response</span><span class=p>(</span><span class=n>status_code</span><span class=o>=</span><span class=n>status</span><span class=o>.</span><span class=n>HTTP_200_OK</span><span class=p>)</span>
+</code></pre></div><blockquote><p>можно было вернуть пустой JSON, но так красивее,
+кроме того, можно продемонстрировать кастомный ответ Starlette</p></blockquote><p>Тут надо отметить, что при таких параметрах, переданных в хендлер,
+FastAPI будет пытаться сериализовать тело запроса в <code>Body</code>,
+а параметр <code>chat_id</code> будет искать в URL params</p><p>Файл <code>models.py</code>:</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>datetime</span> <span class=kn>import</span> <span class=n>datetime</span>
+<span class=kn>from</span> <span class=nn>enum</span> <span class=kn>import</span> <span class=n>Enum</span>
+
+<span class=kn>from</span> <span class=nn>pydantic</span> <span class=kn>import</span> <span class=n>BaseModel</span><span class=p>,</span> <span class=n>HttpUrl</span>
+
+
+<span class=k>class</span> <span class=nc>Author</span><span class=p>(</span><span class=n>BaseModel</span><span class=p>)</span><span class=p>:</span>
+    <span class=n>login</span><span class=p>:</span> <span class=nb>str</span>
+    <span class=n>avatar_url</span><span class=p>:</span> <span class=n>HttpUrl</span>
+
+
+<span class=k>class</span> <span class=nc>Release</span><span class=p>(</span><span class=n>BaseModel</span><span class=p>)</span><span class=p>:</span>
+    <span class=n>name</span><span class=p>:</span> <span class=nb>str</span>
+    <span class=n>draft</span><span class=p>:</span> <span class=nb>bool</span> <span class=o>=</span> <span class=bp>False</span>
+    <span class=n>tag_name</span><span class=p>:</span> <span class=nb>str</span>
+    <span class=n>html_url</span><span class=p>:</span> <span class=n>HttpUrl</span>
+    <span class=n>author</span><span class=p>:</span> <span class=n>Author</span>
+    <span class=n>created_at</span><span class=p>:</span> <span class=n>datetime</span>
+    <span class=n>published_at</span><span class=p>:</span> <span class=n>datetime</span> <span class=o>=</span> <span class=bp>None</span>
+    <span class=n>body</span><span class=p>:</span> <span class=nb>str</span>
+
+
+<span class=k>class</span> <span class=nc>Body</span><span class=p>(</span><span class=n>BaseModel</span><span class=p>)</span><span class=p>:</span>
+    <span class=n>action</span><span class=p>:</span> <span class=nb>str</span>
+    <span class=n>release</span><span class=p>:</span> <span class=n>Release</span>
+</code></pre></div><p>Здесь прекрасно видно, как выглядят модели Pydantic. Их можно вкладывать,
+причем как сущностями, так и списками, к примеру так:</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=k>class</span> <span class=nc>Body</span><span class=p>(</span><span class=n>BaseModel</span><span class=p>)</span><span class=p>:</span>
+   <span class=n>action</span><span class=p>:</span> <span class=nb>str</span>
+   <span class=n>releases</span><span class=p>:</span> <span class=n>List</span><span class=p>[</span><span class=n>Release</span><span class=p>]</span>
+</code></pre></div><p>Ещё мы обязаны задать типы полям моделей и FastAPI будет мапить
+входящий запрос на переданную ему модель с учётом типов. В случае
+несовпадения он отдаст ошибку валидации. В случае, если поля во входящих
+данных нет и в модели не проставлено значение по-умолчанию - тоже.</p><p>Кроме базовых питоньих типов Pydantic предлагает ещё
+достаточно много своих собственных типов данных, в моём примере
+это тип HttpUrl, то есть входящая строка должна быть
+валидным URL со схемой и доменом первого уровня, в противном
+случае FastAPI отдаст ошибку валидации. Остальные типы Pydantic
+можно посмотреть
+<a target=_blank class=external-link href=https://pydantic-docs.helpmanual.io/usage/types/#pydantic-types>здесь</a></p><p>Таким образом валидация и сериализация данных настраивается
+уже при задании модели данных.</p><h3 id=аутентификация>Аутентификация</h3><p>FastAPI поддерживает достаточно методов аутентификации по умолчанию,
+но, поскольку здесь используется гитхабовская подпись
+запроса, авторизацию пришлось колхозить самостоятельно,
+ну да оно и к лучшему - больше интересного!</p><p>Я вынес роуты FastAPI в отдельный роутер, а в основном
+файле оставил авторизацию и управление документацией:</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>fastapi</span> <span class=kn>import</span> <span class=n>FastAPI</span><span class=p>,</span> <span class=n>HTTPException</span><span class=p>,</span> <span class=n>Depends</span>
+<span class=kn>from</span> <span class=nn>starlette</span> <span class=kn>import</span> <span class=n>status</span>
+<span class=kn>from</span> <span class=nn>starlette.requests</span> <span class=kn>import</span> <span class=n>Request</span>
+
+<span class=kn>import</span> <span class=nn>settings</span>
+<span class=kn>from</span> <span class=nn>router</span> <span class=kn>import</span> <span class=n>api_router</span>
+<span class=kn>from</span> <span class=nn>utils</span> <span class=kn>import</span> <span class=n>check_auth</span>
+
+<span class=n>docs_kwargs</span> <span class=o>=</span> <span class=p>{</span><span class=p>}</span>  <span class=c1># noqa: pylint=invalid-name</span>
+<span class=k>if</span> <span class=n>settings</span><span class=o>.</span><span class=n>ENVIRONMENT</span> <span class=o>==</span> <span class=sa></span><span class=s1>&#39;</span><span class=s1>production</span><span class=s1>&#39;</span><span class=p>:</span>
+    <span class=n>docs_kwargs</span> <span class=o>=</span> <span class=nb>dict</span><span class=p>(</span><span class=n>docs_url</span><span class=o>=</span><span class=bp>None</span><span class=p>,</span> <span class=n>redoc_url</span><span class=o>=</span><span class=bp>None</span><span class=p>)</span>  <span class=c1># noqa: pylint=invalid-name</span>
+
+<span class=n>app</span> <span class=o>=</span> <span class=n>FastAPI</span><span class=p>(</span><span class=o>*</span><span class=o>*</span><span class=n>docs_kwargs</span><span class=p>)</span>  <span class=c1># noqa: pylint=invalid-name</span>
+
+
+<span class=n>async</span> <span class=k>def</span> <span class=nf>check_auth_middleware</span><span class=p>(</span><span class=n>request</span><span class=p>:</span> <span class=n>Request</span><span class=p>)</span><span class=p>:</span>
+    <span class=k>if</span> <span class=n>settings</span><span class=o>.</span><span class=n>ENVIRONMENT</span> <span class=ow>in</span> <span class=p>(</span><span class=sa></span><span class=s1>&#39;</span><span class=s1>production</span><span class=s1>&#39;</span><span class=p>,</span> <span class=sa></span><span class=s1>&#39;</span><span class=s1>test</span><span class=s1>&#39;</span><span class=p>)</span><span class=p>:</span>
+        <span class=n>body</span> <span class=o>=</span> <span class=n>await</span> <span class=n>request</span><span class=o>.</span><span class=n>body</span><span class=p>(</span><span class=p>)</span>
+        <span class=k>if</span> <span class=ow>not</span> <span class=n>check_auth</span><span class=p>(</span><span class=n>body</span><span class=p>,</span> <span class=n>request</span><span class=o>.</span><span class=n>headers</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=sa></span><span class=s1>&#39;</span><span class=s1>X-Hub-Signature</span><span class=s1>&#39;</span><span class=p>,</span> <span class=sa></span><span class=s1>&#39;</span><span class=s1>&#39;</span><span class=p>)</span><span class=p>)</span><span class=p>:</span>
+            <span class=k>raise</span> <span class=n>HTTPException</span><span class=p>(</span><span class=n>status_code</span><span class=o>=</span><span class=n>status</span><span class=o>.</span><span class=n>HTTP_401_UNAUTHORIZED</span><span class=p>)</span>
+
+
+<span class=n>app</span><span class=o>.</span><span class=n>include_router</span><span class=p>(</span><span class=n>api_router</span><span class=p>,</span> <span class=n>dependencies</span><span class=o>=</span><span class=p>[</span><span class=n>Depends</span><span class=p>(</span><span class=n>check_auth_middleware</span><span class=p>)</span><span class=p>]</span><span class=p>)</span>
+
+</code></pre></div><blockquote><p>Функция <code>check_auth</code> проверяет валидность хеадера, она нерелевантна теме,
+любопытствующие могут посмотреть в исходном коде</p></blockquote><p>Обратите внимание, что <code>request.body</code> - это функция,
+причем асинхронная. В FastAPI(а на деле в Starlette) асинхронность
+везде, это надо обязательно помнить.</p><p>Что касается документации, то это ещё один большой плюс FastAPI - он
+автоматически генерит документацию в формате OpenAPI и отдаёт её
+в формате Swagger/ReDoc в зависимости от где вы смотрите,
+ваш_сайт/docs или ваш_сайт/redoc соответственно.</p><p>В моем случае я решил документацию в проде вообще убрать. Ну его.</p><p>Соответственно, файл с роутами превлатился в это:</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>fastapi</span> <span class=kn>import</span> <span class=n>APIRouter</span>
+<span class=kn>from</span> <span class=nn>starlette</span> <span class=kn>import</span> <span class=n>status</span>
+<span class=kn>from</span> <span class=nn>starlette.responses</span> <span class=kn>import</span> <span class=n>Response</span>
+
+<span class=kn>from</span> <span class=nn>bot</span> <span class=kn>import</span> <span class=n>proceed_release</span>
+<span class=kn>from</span> <span class=nn>models</span> <span class=kn>import</span> <span class=n>Body</span><span class=p>,</span> <span class=n>Actions</span>
+
+<span class=n>api_router</span> <span class=o>=</span> <span class=n>APIRouter</span><span class=p>(</span><span class=p>)</span>  <span class=c1># noqa: pylint=invalid-name</span>
+
+
+<span class=nd>@api_router.post</span><span class=p>(</span><span class=sa></span><span class=s2>&#34;</span><span class=s2>/release/</span><span class=s2>&#34;</span><span class=p>)</span>
+<span class=n>async</span> <span class=k>def</span> <span class=nf>release</span><span class=p>(</span><span class=o>*</span><span class=p>,</span>
+                  <span class=n>body</span><span class=p>:</span> <span class=n>Body</span><span class=p>,</span>
+                  <span class=n>chat_id</span><span class=p>:</span> <span class=nb>str</span> <span class=o>=</span> <span class=bp>None</span><span class=p>,</span>
+                  <span class=n>release_only</span><span class=p>:</span> <span class=nb>bool</span> <span class=o>=</span> <span class=bp>False</span><span class=p>)</span><span class=p>:</span>
+
+    <span class=k>if</span> <span class=p>(</span><span class=n>body</span><span class=o>.</span><span class=n>release</span><span class=o>.</span><span class=n>draft</span> <span class=ow>and</span> <span class=ow>not</span> <span class=n>release_only</span><span class=p>)</span> \
+            <span class=ow>or</span> <span class=n>body</span><span class=o>.</span><span class=n>action</span> <span class=o>==</span> <span class=n>Actions</span><span class=o>.</span><span class=n>released</span><span class=p>:</span>
+        <span class=n>res</span> <span class=o>=</span> <span class=n>await</span> <span class=n>proceed_release</span><span class=p>(</span><span class=n>body</span><span class=p>,</span> <span class=n>chat_id</span><span class=p>)</span>
+        <span class=k>return</span> <span class=n>Response</span><span class=p>(</span><span class=n>status_code</span><span class=o>=</span><span class=n>res</span><span class=o>.</span><span class=n>status_code</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>Response</span><span class=p>(</span><span class=n>status_code</span><span class=o>=</span><span class=n>status</span><span class=o>.</span><span class=n>HTTP_200_OK</span><span class=p>)</span>
+
+</code></pre></div><blockquote><p>Как видно, я добавил немного логики чтобы бот не беспокоил
+коллег постоянным спамом.</p></blockquote><h4 id=а-всё>А всё</h4><p>Это действительно весь код, который запускает быстрый HTTP API-сервер
+с аутентификацией, валидацией и документацией.</p><h4 id=итого>Итого</h4><p>FastAPI - действительно отличный инструмент, если вам по душе
+лаконичность и, вместе с тем, понятность кода. Кроме того,
+он асинхронен(фу, вы что, в 2020-ом году пишете синхронный код?
+я тоже),
+<a target=_blank class=external-link href=https://fastapi.tiangolo.com/benchmarks/>быстр</a>
+и это не идёт в ущерб функциональности.</p><p>Так что если на горизонте маячит новый проект, для которого важны производительность,
+документация и валидация, то, вероятно, имеет смысл посмотреть в сторону FastAPI.</p><h4 id=вместо-послесловия>Вместо послесловия</h4><p>Конечно, проект получился несколько больше, чем описанные мной три файла. Там их
+на самом деле шесть - собственно бот, описывать которого я не стал, ибо нерелевантно,
+а также утилиты и настройки, вынесенные в отдельные файлы для большего порядку.</p><p>Всё это, а также тесты, докерфайл и настройку github actions вы можете
+посмотреть в
+<a target=_blank class=external-link href=https://github.com/Ivan-Feofanov/github-release-bot>исходном коде проекта</a></p><p>Доклад окончен, всем спасибо!</p><div class=blog-tags><a href=https://ivan-feofanov.github.io/tags/python/>python</a>&nbsp;
+<a href=https://ivan-feofanov.github.io/tags/async/>async</a>&nbsp;
+<a href=https://ivan-feofanov.github.io/tags/api/>api</a>&nbsp;</div><hr><section id=social-share><div class="list-inline footer-links"><div class=share-box aria-hidden=true><ul class=share><li><a href="//twitter.com/share?url=https%3a%2f%2fivan-feofanov.github.io%2fposts%2fmeet-to-fastapi%2f&text=%d0%97%d0%bd%d0%b0%d0%ba%d0%be%d0%bc%d1%81%d1%82%d0%b2%d0%be%20%d1%81%20FastAPI&via=feofanov" target=_blank title="Share on Twitter"><i class="fab fa-twitter"></i></a></li><li><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fivan-feofanov.github.io%2fposts%2fmeet-to-fastapi%2f" target=_blank title="Share on Facebook"><i class="fab fa-facebook"></i></a></li><li><a href="//reddit.com/submit?url=https%3a%2f%2fivan-feofanov.github.io%2fposts%2fmeet-to-fastapi%2f&title=%d0%97%d0%bd%d0%b0%d0%ba%d0%be%d0%bc%d1%81%d1%82%d0%b2%d0%be%20%d1%81%20FastAPI" target=_blank title="Share on Reddit"><i class="fab fa-reddit"></i></a></li><li><a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fivan-feofanov.github.io%2fposts%2fmeet-to-fastapi%2f&title=%d0%97%d0%bd%d0%b0%d0%ba%d0%be%d0%bc%d1%81%d1%82%d0%b2%d0%be%20%d1%81%20FastAPI" target=_blank title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a></li><li><a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fivan-feofanov.github.io%2fposts%2fmeet-to-fastapi%2f&title=%d0%97%d0%bd%d0%b0%d0%ba%d0%be%d0%bc%d1%81%d1%82%d0%b2%d0%be%20%d1%81%20FastAPI" target=_blank title="Share on StumbleUpon"><i class="fab fa-stumbleupon"></i></a></li><li><a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fivan-feofanov.github.io%2fposts%2fmeet-to-fastapi%2f&description=%d0%97%d0%bd%d0%b0%d0%ba%d0%be%d0%bc%d1%81%d1%82%d0%b2%d0%be%20%d1%81%20FastAPI" target=_blank title="Share on Pinterest"><i class="fab fa-pinterest"></i></a></li></ul></div></div></section></article><ul class="pager blog-pager"><li class=previous><a href=https://ivan-feofanov.github.io/posts/windows1251-utf8-converting/ data-toggle=tooltip data-placement=top title="Как перекодировать Windows-1251 в UTF8 в Go без страданий">&larr; Предыдущий</a></li></ul><div class=disqus-comments><button id=show-comments class="btn btn-default" type=button>Показать <span class=disqus-comment-count data-disqus-url=https://ivan-feofanov.github.io/posts/meet-to-fastapi>комментариев</span></button><div id=disqus_thread></div><script type=text/javascript>var disqus_config=function(){this.page.url='https:\/\/ivan-feofanov.github.io\/posts\/meet-to-fastapi';};</script></div></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=https://github.com/Ivan-Feofanov title=GitHub><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://twitter.com/feofanov title=Twitter><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-twitter fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://linkedin.com/in/ivan-feofanov title=LinkedIn><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://telegram.me/feofanov title=Telegram><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-telegram fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted">Ivan Feofanov
+&nbsp;&bull;&nbsp;&copy;
+2020
+&nbsp;&bull;&nbsp;
+<a href=https://ivan-feofanov.github.io>From Urals with None</a></p><p class="credits theme-by text-muted">На базе <a href=https://gohugo.io>Hugo v0.62.2</a> &nbsp;&bull;&nbsp; Тема <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> на базе <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script><script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script><script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script><script src=https://ivan-feofanov.github.io/js/main.js></script><script>renderMathInElement(document.body);</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://ivan-feofanov.github.io/js/load-photoswipe.js></script><script type=text/javascript>$(function(){$('#show-comments').on('click',function(){var disqus_shortname='ivan-feofanov';(function(){var disqus=document.createElement('script');disqus.type='text/javascript';disqus.async=true;disqus.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(disqus);})();$(this).hide();});});</script><script id=dsq-count-scr src=//ivan-feofanov.disqus.com/count.js async></script></body></html>
