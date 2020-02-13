@@ -40,7 +40,7 @@ HTTP API-серверов со встроенными валидацией, се
 <span class=nx>uvicorn</span> <span class=p>=</span> <span class=s2>&#34;*&#34;</span>
 </code></pre></div><p>И этого более чем достаточно.</p><blockquote><p>Для более тщательных читателей в
 конце статьи есть ссылка на репозиторий с ботом, там можно посмотреть
-на зависимости для разработки и тестирования.</p></blockquote><p>Ну что, <code>pipenv install -d</code> и начали!</p><h4 id=собираем-api>Собираем API</h4><p>Надо заметить, что подход к офоромлению хэндлеров в FastAPI
+на зависимости для разработки и тестирования.</p></blockquote><p>Ну что, <code>pipenv install -d</code> и начали!</p><h4 id=собираем-api>Собираем API</h4><p>Надо заметить, что подход к оформлению хэндлеров в FastAPI
 чрезвычайно напоминает такой же в Flask, Bottle, да тысячи их.
 Видимо, миллионы мух не могут- таки ошибаться.</p><p>В самом первом приближении мой роут для обработки релиза выглядел так:</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>fastapi</span> <span class=kn>import</span> <span class=n>FastAPI</span>
 <span class=kn>from</span> <span class=nn>starlette</span> <span class=kn>import</span> <span class=n>status</span>
@@ -133,7 +133,7 @@ FastAPI будет пытаться сериализовать тело запр
 везде, это надо обязательно помнить.</p><p>Что касается документации, то это ещё один большой плюс FastAPI - он
 автоматически генерит документацию в формате OpenAPI и отдаёт её
 в формате Swagger/ReDoc в зависимости от где вы смотрите,
-ваш_сайт/docs или ваш_сайт/redoc соответственно.</p><p>В моем случае я решил документацию в проде вообще убрать. Ну его.</p><p>Соответственно, файл с роутами превлатился в это:</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>fastapi</span> <span class=kn>import</span> <span class=n>APIRouter</span>
+ваш_сайт/docs или ваш_сайт/redoc соответственно.</p><p>В моем случае я решил документацию в проде вообще убрать. Ну его.</p><p>Соответственно, файл с роутами превратился в это:</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>fastapi</span> <span class=kn>import</span> <span class=n>APIRouter</span>
 <span class=kn>from</span> <span class=nn>starlette</span> <span class=kn>import</span> <span class=n>status</span>
 <span class=kn>from</span> <span class=nn>starlette.responses</span> <span class=kn>import</span> <span class=n>Response</span>
 
