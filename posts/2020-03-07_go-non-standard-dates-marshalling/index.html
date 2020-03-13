@@ -9,8 +9,8 @@
 как часто вам доводилось сталкиваться с соблюдением этого стандарта
 в сторонних API? Не знаю, как с этим обстоят дела за рубежом,
 надеюсь, в комментариях мне подскажут, но на постсоветских просторах
-ситуация - просто обнять и плакать. Каждый использует свой собственный, только
-ему удобный, формат времени и даты и разбирайся с этим как хочешь.</p><p>Проблема, с которой столкнулся я не выглядела так уж ужасно, формат
+ситуация - обнять и плакать. Каждый использует свой собственный, только
+ему удобный, формат времени и даты и разбирайся с этим как хочешь.</p><p>Проблема, с которой я столкнулся, не выглядела так уж ужасно, формат
 даты в API, с которым мне предстояло взимодействовать, выглядел
 так: <code>YYYY-MM-DD hh:mm:dd</code>. Смотрится вроде нормально, не так ли?</p><p>Нет.</p><p>Абсолютно ненормально.</p><p>Те, кто знаком с форматом ISO 8601, уже поняли в чем подвох. Для наглядности:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>
     <span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
@@ -55,13 +55,13 @@
 	<span style=color:#a6e22e>StampNano</span>  = <span style=color:#e6db74>&#34;Jan _2 15:04:05.000000000&#34;</span>
 
 </code></pre></div><p>Отсюда: <a href=https://golang.org/src/time/format.go>https://golang.org/src/time/format.go</a></p><p>Как вы можете заметить, формата <code>YYYY-MM-DD hh:mm:ss</code> там нет.
-Окей, проблема понятна, но что делать то?</p><p>На самом деле проблема решается достаточно несложно и довольно изящно, достаточно вспомнить,
+Окей, проблема понятна, но что делать то?</p><p>На самом деле проблема решается достаточно несложно, достаточно вспомнить,
 как в Go работает <code>json.Unmarshall</code>. А работает он просто - у каждого поля
 структуры, в которую мы пытаемся смапить наш байтстринг он ищет соответствие в
-этом самом байтстринге и, если находит, вызывает у поля функцию UnmasrhallJSON, в которую
+этом самом байтстринге и, если находит, вызывает у поля функцию <strong>UnmasrhallJSON</strong>, в которую
 передаёт найденное значение.</p><p>Соответственно, чтобы нам распарсить нестандартную дату, надо задать для поля кастомный
 тип, который будет реализовывать интерфейс Unmarshaler, то бишь
-иметь функцию <strong>UnmasrhallJSON</strong>:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    
+иметь собственную функцию <strong>UnmasrhallJSON</strong>:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    
     <span style=color:#66d9ef>type</span> <span style=color:#a6e22e>CustomDate</span> <span style=color:#66d9ef>struct</span> {
         <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Time</span>
     }
@@ -82,9 +82,9 @@
     }
 
 </code></pre></div><p>Ну и чтоб два раза не вставать, давайте добавим кастомный маршалер,
-нам ведь рано или поздно придется данные грузить в ту API, откуда
+нам ведь рано или поздно придется грузить данные в ту API, откуда
 мы их взяли, а значит, надо их снова привести к их нестандартному формату.
-В итоге всё вместе будет выглядеть как-то так:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    
+В итоге всё вместе будет выглядеть так:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    
     <span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
     
     <span style=color:#f92672>import</span> (
