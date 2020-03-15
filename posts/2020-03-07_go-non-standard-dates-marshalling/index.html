@@ -104,7 +104,7 @@
     <span style=color:#66d9ef>return</span>
 }
 
-<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>CustomDate</span>) <span style=color:#a6e22e>MarshalJSON</span>() ([]<span style=color:#66d9ef>byte</span>, <span style=color:#66d9ef>error</span>) {
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#a6e22e>CustomDate</span>) <span style=color:#a6e22e>MarshalJSON</span>() ([]<span style=color:#66d9ef>byte</span>, <span style=color:#66d9ef>error</span>) {
     <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>Time</span>.<span style=color:#a6e22e>IsZero</span>() {
         <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#66d9ef>nil</span>
     }
