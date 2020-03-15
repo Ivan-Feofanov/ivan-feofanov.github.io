@@ -132,7 +132,8 @@
     <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Marshal:&#34;</span>)
     <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(string(<span style=color:#a6e22e>b</span>))
 }
-</code></pre></div><p>Результат:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>Unmarshal:
+</code></pre></div><blockquote><p>Обратите внимание на сигнатуру функций Marshal/Unmarshal. Они разные —
+MarchalJSON принимает значение, а UnmarshalJSON — ссылку</p></blockquote><p>Результат:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>Unmarshal:
 1900-01-01 12:00:04 +0000 UTC
 Marshal:
 <span style=color:#f92672>{</span><span style=color:#e6db74>&#34;DateTime&#34;</span>:<span style=color:#e6db74>&#34;1900-01-01T12:00:04Z&#34;</span><span style=color:#f92672>}</span>
