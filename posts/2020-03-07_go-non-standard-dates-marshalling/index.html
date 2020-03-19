@@ -12,7 +12,7 @@
 ситуация — обнять и плакать. Каждый использует свой собственный, только
 ему удобный, формат времени и даты и разбирайся с этим как хочешь.</p><p>Проблема, с которой я столкнулся, не выглядела так уж ужасно, формат
 даты в API, с которым мне предстояло взимодействовать, выглядел
-так: <code>YYYY-MM-DD hh:mm:dd</code>. Смотрится вроде нормально, не так ли?</p><p>Нет.</p><p>Абсолютно ненормально.</p><p>Те, кто знаком с форматом ISO 8601, уже поняли в чем подвох. Для наглядности:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+так: <code>YYYY-MM-DD hh:mm:ss</code>. Смотрится вроде нормально, не так ли?</p><p>Нет.</p><p>Абсолютно ненормально.</p><p>Те, кто знаком с форматом ISO 8601, уже поняли в чем подвох. Для наглядности:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
 <span style=color:#f92672>import</span> (
     <span style=color:#e6db74>&#34;encoding/json&#34;</span>
