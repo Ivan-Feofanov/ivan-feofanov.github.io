@@ -96,7 +96,7 @@
 <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>layout</span> = <span style=color:#e6db74>&#34;2006-01-02 15:04:05&#34;</span>
 
 <span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>CustomDate</span>) <span style=color:#a6e22e>UnmarshalJSON</span>(<span style=color:#a6e22e>b</span> []<span style=color:#66d9ef>byte</span>) (<span style=color:#a6e22e>err</span> <span style=color:#66d9ef>error</span>) {
-    <span style=color:#a6e22e>s</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strings</span>.<span style=color:#a6e22e>Trim</span>(string(<span style=color:#a6e22e>b</span>), <span style=color:#e6db74>&#34;\&#34;&#34;</span>) <span style=color:#75715e>// remove quotes
+    <span style=color:#a6e22e>s</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strings</span>.<span style=color:#a6e22e>Trim</span>(string(<span style=color:#a6e22e>b</span>), <span style=color:#e6db74>`</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>`</span>) <span style=color:#75715e>// remove quotes
 </span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>s</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;null&#34;</span> {
         <span style=color:#66d9ef>return</span>
     }
@@ -108,7 +108,7 @@
     <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>Time</span>.<span style=color:#a6e22e>IsZero</span>() {
         <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#66d9ef>nil</span>
     }
-    <span style=color:#66d9ef>return</span> []byte(<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;\&#34;%s\&#34;&#34;</span>, <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>Time</span>.<span style=color:#a6e22e>Format</span>(<span style=color:#a6e22e>layout</span>))), <span style=color:#66d9ef>nil</span>
+    <span style=color:#66d9ef>return</span> []byte(<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>`</span><span style=color:#e6db74>&#34;%s&#34;</span><span style=color:#e6db74>`</span>, <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>Time</span>.<span style=color:#a6e22e>Format</span>(<span style=color:#a6e22e>layout</span>))), <span style=color:#66d9ef>nil</span>
 }
 
 <span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Dated</span> <span style=color:#66d9ef>struct</span> {
@@ -116,7 +116,7 @@
 }
 
 <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
-    <span style=color:#a6e22e>input</span> <span style=color:#f92672>:=</span> []byte(<span style=color:#e6db74>&#34;{\&#34;datetime\&#34;: \&#34;1900-01-01 12:00:04\&#34;}&#34;</span>)
+    <span style=color:#a6e22e>input</span> <span style=color:#f92672>:=</span> []byte(<span style=color:#e6db74>`</span><span style=color:#e6db74>{</span><span style=color:#e6db74>&#34;datetime&#34;: &#34;1900-01-01 12:00:04&#34;}</span><span style=color:#e6db74>`</span>)
     <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>d</span> <span style=color:#a6e22e>Dated</span>
     <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>json</span>.<span style=color:#a6e22e>Unmarshal</span>(<span style=color:#a6e22e>input</span>, <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>d</span>)
     <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
