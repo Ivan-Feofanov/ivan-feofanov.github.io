@@ -1,0 +1,164 @@
+<!doctype html><html lang=ru><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=generator content="Hugo 0.62.2"><title>Как настроить собственный Docker Registry и Pull Proxy • Ivan Feofanov</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Как настроить собственный Docker Registry и Pull Proxy"><meta name=twitter:description content="Для чего и чтобы что.
+Иногда так бывает, что ты делаешь себе потихоньку что-то одно, а потом звезды сходятся в одну им, звездам, известную конфигурацию и ты бросаешь всё и начинаешь заниматься совсем дрегим делом."><meta property="og:title" content="Как настроить собственный Docker Registry и Pull Proxy"><meta property="og:description" content="Для чего и чтобы что.
+Иногда так бывает, что ты делаешь себе потихоньку что-то одно, а потом звезды сходятся в одну им, звездам, известную конфигурацию и ты бросаешь всё и начинаешь заниматься совсем дрегим делом."><meta property="og:type" content="article"><meta property="og:url" content="https://ivan-feofanov.github.io/posts/your-own-docker-registry-and-pull-proxy/"><meta property="article:published_time" content="2021-01-10T13:43:37+05:00"><meta property="article:modified_time" content="2021-01-10T13:43:37+05:00"><meta property="og:site_name" content="From Urals"><link rel=stylesheet href=/scss/hyde-hyde.62ea8509eba00c72d68383a4a4e5791acbd54d3a049786c3f29397b31497d446.css integrity="sha256-YuqFCeugDHLWg4OkpOV5GsvVTToEl4bD8pOXsxSX1EY="><link rel=stylesheet href=/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58+TzH3icCkSHGoJ+ed7w=" media=print><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]--><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png></head><body><div class=sidebar><div class=container><div class=sidebar-about><span class=site__title><a href=https://ivan-feofanov.github.io/>Ivan Feofanov</a></span><div class=author-image><img src=https://ivan-feofanov.github.io/images/avatar.jpg alt="Author Image" class="img--circle img--headshot element--center"></div><p class=site__description>Cat's shepherd, Python, Golang and NodeJS developer</p></div><div class=collapsible-menu><input type=checkbox id=menuToggle>
+<label for=menuToggle>Ivan Feofanov</label><div class=menu-content><div><ul class=sidebar-nav><li><a href=/><span>Home</span></a></li></ul></div><section class=social><a href=https://twitter.com/feofanov rel=me><i class="fab fa-twitter fa-lg" aria-hidden=true></i></a><a href=https://github.com/Ivan-Feofanov rel=me><i class="fab fa-github fa-lg" aria-hidden=true></i></a><a href=https://linkedin.com/in/ivan-feofanov rel=me><i class="fab fa-linkedin fa-lg" aria-hidden=true></i></a><a href=https://t.me/feofanov rel=me><i class="fab fa-telegram fa-lg" aria-hidden=true></i></a></section></div></div><div class=copyright>&copy; 2021 Ivan Feofanov
+<a href=https://creativecommons.org/licenses/by-sa/4.0>CC BY-SA 4.0</a></div><div class=builtwith>Built with <a href=https://gohugo.io>Hugo</a> ❤️ <a href=https://github.com/htr3n/hyde-hyde>hyde-hyde</a>.</div></div></div><div class="content container"><article><header><h1>Как настроить собственный Docker Registry и Pull Proxy</h1><div class=post__meta><i class="fas fa-calendar-alt"></i>Jan 10, 2021<br><i class="fas fa-tags"></i><a class="badge badge-tag" href=/tags/devops>devops</a>
+<a class="badge badge-tag" href=/tags/docker>docker</a>
+<a class="badge badge-tag" href=/tags/registry>registry</a>
+<a class="badge badge-tag" href=/tags/nginx>nginx</a><br><i class="fas fa-clock"></i>5 min read</div></header><div class=post><p><strong>Для чего и чтобы что.</strong></p><p>Иногда так бывает, что ты делаешь себе потихоньку что-то одно,
+а потом звезды сходятся в одну им, звездам, известную конфигурацию
+и ты бросаешь всё и начинаешь заниматься совсем дрегим делом.</p><p>Так случилось и со мной, а толчком этому послужила новая политика
+Docker Hub - не более 100 анонимных и не более 200 авторизованных
+пуллов в шесть часов. Сначала мы не придали этому большого значения,
+но количество проектов росло, количество деплоев на каждом - тоже
+и, в итоге, мы уткнулись в этот лимит. Можно было примотать какого-нибудь
+пользователя и жить до следующего лимита или же достать кошелек,
+но в кошельке мухи дохлые да дух святой и боле ничего, так что
+пришлось пилить нормальное решение.</p><p>Плюсом легло то, что я давно мечтал о собственном, сугубо локальном
+registry для хранения наших предсобранных образов - так две задачи
+объединились в одну.</p><p>Нам был нужен локальный docker-registry, доступный из локальной
+сети по внутреннему доменному имени через https без авторизации.
+К тому же этот registry должен не только хранить и отдавать наши
+собственные образы, но и проксировать запросы к Docker Hub без
+всяких дополнительных танцев.</p><p>Проще говоря, если условимся, что адрес будет <code>registry.local</code>, то
+все должно работать так:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>docker pull registry.local/redis
+</code></pre></div><p>отдает <code>redis:latest</code> из собственного кэша, если он там есть или же из
+docker hub, если в кэше не нашлось,</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>docker push registry.local/my-own-image
+</code></pre></div><p>заливает образ в registry и, разумеется,</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>docker pull registry.local/my-own-image
+</code></pre></div><p>этот образ отдает. При этом никаких действий на клиентских машинах
+производиться не должно.</p><h3 id=проблема>Проблема</h3><p>Для начала было решено использовать стандартный docker registry
+в режиме
+<a target=_blank class=external-link href=https://docs.docker.com/registry/recipes/mirror/>Registry as a pull through cache</a>,
+но вот беда - registry не умеет одновременно работать и как, собственно,
+registry и как кэш - тут либо одно либо другое. Простой вариант - посадить
+два registry на соседние порты и пользоваться в таком вот режиме, но так,
+как любит говорить наш руководитель, только чужие для хищников пишут,
+а мы всё ж для людей стараемся. А значит, что точка входа должна быть одна,
+а там где одна точка входа на несколько сервисов, то там у нас что?</p><h3 id=nginx>nginx</h3><p>Куда ж без nginx? Но о нем мы поговорим чуть позже, а сначала - план!</p><p>Значит, первым на очереди на случай пуша образа у нас стоит
+обычный локальный registry, а на pull нам потребуется запросить
+образ в локальном registry, если нет - перенаправить запрос в кеш,
+ну а если и кеш не найдет ни у себя ни в вышестоящем registry, то
+ответить &ldquo;Увы&rdquo;. План прост как три рубля!</p><p>Но тут полезли подводные камушки.</p><h3 id=library>library</h3><p>Сперва надо было убедиться, что registry в режиме кэша работает
+как от него ожидается, так что на скорую руку я соорудил кэш:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>version: <span style=color:#e6db74>&#39;3&#39;</span>
+services:
+  cache:
+    restart: always
+    image: registry:<span style=color:#ae81ff>2</span>
+    environment:
+      REGISTRY_PROXY_REMOTEURL: https://registry<span style=color:#ae81ff>-1.</span>docker.io
+    volumes:
+      - /DATA/registry:/var/lib/registry
+</code></pre></div><p>После этого я запросил образ редиса и получил 404. WTF, подумал я и
+полез а логи. Однако, выяснилось, что действительно, на registry-1.docker.io
+нет никакого образа <code>redis</code>. Зато есть образ <code>library/redis</code>. И вообще,
+как я потом уже нашел</p><blockquote><p><code>docker pull ubuntu</code> instructs docker to pull an image named <code>ubuntu</code> from
+the official Docker Hub. This is simply a shortcut for the longer
+<code>docker pull docker.io/library/ubuntu</code> command</p></blockquote><a target=_blank class=external-link href=https://docs.docker.com/registry/introduction/#understanding-image-naming>отсюда</a><p>Проще говоря, все официальные образы хранятся у пользователя <code>library</code>,
+а docker hub это просто шорткатит.</p><p>Ну раз у докера есть такой шорткат, то и нам такой заиметь придется,
+а тут уже без <code>nginx</code> никак.</p><h3 id=теперь-действительно-nginx>теперь действительно nginx</h3><p>План наш немного дополнился - если на последнем шаге кэш ничего не нашел, то есть
+ненулевая вероятность, что пользователь запрашивает официальный образ,
+а значит, надо поискать в <code>library</code>. Штош, в первом приближении собираем
+что-то такое:</p><p>nginx.conf</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=color:#66d9ef>upstream</span> <span style=color:#e6db74>registry</span> {
+    <span style=color:#f92672>server</span> registry:<span style=color:#ae81ff>5000</span>;
+}
+<span style=color:#66d9ef>upstream</span> <span style=color:#e6db74>cache</span> {
+    <span style=color:#f92672>server</span> cache:<span style=color:#ae81ff>5000</span>;
+}
+<span style=color:#66d9ef>client_max_body_size</span> <span style=color:#e6db74>10G</span>;
+
+<span style=color:#66d9ef>server</span> {
+  <span style=color:#f92672>listen</span> <span style=color:#ae81ff>80</span> <span style=color:#e6db74>default_server</span>;
+  <span style=color:#f92672>server_name</span> <span style=color:#e6db74>registry.local</span>;
+
+  <span style=color:#f92672>location</span> <span style=color:#e6db74>/</span> {
+    <span style=color:#f92672>proxy_pass</span> <span style=color:#e6db74>http://registry</span>;
+    <span style=color:#f92672>error_page</span> <span style=color:#ae81ff>404</span> = <span style=color:#e6db74>@cache</span>;
+  }
+
+  <span style=color:#f92672>location</span> <span style=color:#e6db74>@cache</span> {
+    <span style=color:#f92672>proxy_pass</span> <span style=color:#e6db74>http://cache</span>;
+    <span style=color:#f92672>error_page</span> <span style=color:#ae81ff>404</span> = <span style=color:#e6db74>@library</span>;
+  }
+
+  <span style=color:#f92672>location</span> <span style=color:#e6db74>@library</span> {
+    <span style=color:#f92672>rewrite</span> <span style=color:#e6db74>/v2/(.*)</span> <span style=color:#e6db74>/v2/library/</span>$1 <span style=color:#e6db74>break</span>;
+    <span style=color:#f92672>proxy_pass</span> <span style=color:#e6db74>http://cache</span>;
+  }
+}
+</code></pre></div><p>Но на запрос редиса всё еще прилетает 404. Странно, не так ли?
+Очередной приступ гугления принес следующую информацию: по умолчанию
+<code>nginx</code> делает только один фолбэк на ошибку, а дальнейшие игнорирует.
+Почему - стоит Сысоева спросить, но есть способ это поправить:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=color:#66d9ef>recursive_error_pages</span>  <span style=color:#66d9ef>on</span>;
+<span style=color:#66d9ef>proxy_intercept_errors</span> <span style=color:#66d9ef>on</span>;  
+</code></pre></div><p>И тут-то все заработало и тут-то&mldr; А нет, не работет.
+Ещё одним камнем оказалось то, что на отсутствующий образ
+docker hub вполне может отдать и 404 и 500. Пришлось добавить
+обработку и этой ошибки. Все, образы пуллятся, все счастливы,
+открываем шампанское! Но кажется, что что-то позабыли&mldr; Точно, пуш забыли!
+А пуш-то и сломался.</p><p>По причине, мне неизвестной, при пуше образа последний POST-запрос должен
+получить 404 вкачестве подтверждения, что образ запушен успешно. А на 404
+у нас что? Правильно, редирект. Штош, отловим и это поведение:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx>    <span style=color:#66d9ef>if</span> <span style=color:#e6db74>(</span>$request_method = <span style=color:#e6db74>GET</span> <span style=color:#e6db74>)</span> {
+        <span style=color:#f92672>error_page</span> <span style=color:#ae81ff>404</span> = <span style=color:#e6db74>@cache</span>;
+    }
+</code></pre></div><h3 id=рабочий-вариант>Рабочий вариант</h3><p>Вот такой в итоге получается рабочий вариант конфига:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=color:#66d9ef>upstream</span> <span style=color:#e6db74>registry</span> {
+    <span style=color:#f92672>server</span> registry:<span style=color:#ae81ff>5000</span>;
+}
+<span style=color:#66d9ef>upstream</span> <span style=color:#e6db74>cache</span> {
+    <span style=color:#f92672>server</span> cache:<span style=color:#ae81ff>5000</span>;
+}
+<span style=color:#66d9ef>client_max_body_size</span> <span style=color:#e6db74>10G</span>;
+
+<span style=color:#66d9ef>server</span> {
+  <span style=color:#f92672>listen</span> <span style=color:#ae81ff>80</span> <span style=color:#e6db74>default_server</span>;
+  <span style=color:#f92672>server_name</span> <span style=color:#e6db74>registry.local</span>;
+  <span style=color:#f92672>recursive_error_pages</span>  <span style=color:#66d9ef>on</span>;
+  <span style=color:#f92672>proxy_intercept_errors</span> <span style=color:#66d9ef>on</span>;
+
+  <span style=color:#f92672>location</span> <span style=color:#e6db74>/</span> {
+    <span style=color:#f92672>proxy_pass</span> <span style=color:#e6db74>http://registry</span>;
+    <span style=color:#f92672>if</span> <span style=color:#e6db74>(</span>$request_method = <span style=color:#e6db74>GET</span> <span style=color:#e6db74>)</span> {
+        <span style=color:#f92672>error_page</span> <span style=color:#ae81ff>404</span> = <span style=color:#e6db74>@cache</span>;
+    }
+  }
+
+  <span style=color:#f92672>location</span> <span style=color:#e6db74>@cache</span> {
+    <span style=color:#f92672>proxy_pass</span> <span style=color:#e6db74>http://cache</span>;
+    <span style=color:#f92672>error_page</span> <span style=color:#ae81ff>404</span> <span style=color:#ae81ff>500</span> = <span style=color:#e6db74>@library</span>;
+  }
+
+  <span style=color:#f92672>location</span> <span style=color:#e6db74>@library</span> {
+    <span style=color:#f92672>rewrite</span> <span style=color:#e6db74>/v2/(.*)</span> <span style=color:#e6db74>/v2/library/</span>$1 <span style=color:#e6db74>break</span>;
+    <span style=color:#f92672>proxy_pass</span> <span style=color:#e6db74>http://cache</span>;
+  }
+}
+</code></pre></div><p>Ну и docker-compose.yml для завершенности картины:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>version: <span style=color:#e6db74>&#39;3&#39;</span>
+services:
+  web:
+    restart: always
+    image: nginx
+    ports:
+      - <span style=color:#ae81ff>80</span>:<span style=color:#ae81ff>80</span>
+    volumes:
+        - ./nginx.conf:/etc/nginx/conf.d/registry.nginx.conf
+
+  cache:
+    restart: always
+    image: registry:<span style=color:#ae81ff>2</span>
+    environment:
+      REGISTRY_PROXY_REMOTEURL: https://registry<span style=color:#ae81ff>-1.</span>docker.io
+    volumes:
+      - /DATA/registry:/var/lib/registry
+
+  registry:
+    restart: always
+    image: registry:<span style=color:#ae81ff>2</span>
+    volumes:
+      - /DATA/registry:/var/lib/registry
+</code></pre></div><p>Понятное дело, надо чтобы в локальной сети этот сервер откликался на
+<code>registry.local</code> ну и я опустил историю с ssl просто потому что она
+довольно банальна и не имеет отношения к предмету статьи.</p><p>Вот в такой вот конфигурации все стало работать так, как и планировалось.
+Надеюсь, этот опыт будет вам полезен, ну и буду благодарен, если кто-нибудь
+расскажет мне про трюк с ошибкой 404 после пуша докер-образа.</p></div><div id=disqus_thread></div><script type=text/javascript>(function(){if(location.hostname==="localhost"||location.hostname==="127.0.0.1"||location.hostname===""){return;}
+var dsq=document.createElement('script');dsq.type='text/javascript';dsq.async=true;var disqus_shortname='ivan-feofanov';dsq.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the
+<a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by
+<span class=logo-disqus>Disqus</span></a></article></div><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','A-156930500-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script><script defer src=https://use.fontawesome.com/releases/v5.12.1/js/all.js integrity=sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR crossorigin=anonymous></script></body></html>
